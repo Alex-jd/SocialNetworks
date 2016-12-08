@@ -36,7 +36,9 @@ public class CapGraph implements Graph {
 	@Override
 	public void addVertex(int num) {
 		// TODO Auto-generated method stub
-
+		ArrayList<Integer> neighbors = new ArrayList<Integer>();
+		adjListsMap.put(num,  neighbors);
+		numVertices++;
 	}
 
 	/* (non-Javadoc)
@@ -45,7 +47,8 @@ public class CapGraph implements Graph {
 	@Override
 	public void addEdge(int from, int to) {
 		// TODO Auto-generated method stub
-
+		(adjListsMap.get(from)).add(to);
+		numEdges++;
 	}
 
 	/* (non-Javadoc)
