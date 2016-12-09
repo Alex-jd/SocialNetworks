@@ -36,6 +36,7 @@ public class CapGraph implements Graph {
 	@Override
 	public void addVertex(int num) {
 		// TODO Auto-generated method stub
+		System.out.println(num);
 		ArrayList<Integer> neighbors = new ArrayList<Integer>();
 		adjListsMap.put(num,  neighbors);
 		numVertices++;
@@ -47,6 +48,7 @@ public class CapGraph implements Graph {
 	@Override
 	public void addEdge(int from, int to) {
 		// TODO Auto-generated method stub
+		System.out.println(from + ";" + to);
 		(adjListsMap.get(from)).add(to);
 		numEdges++;
 	}
@@ -57,6 +59,7 @@ public class CapGraph implements Graph {
 	@Override
 	public Graph getEgonet(int center) {
 		// TODO Auto-generated method stub
+		Graph egoGraph = new CapGraph();
 		return null;
 	}
 
@@ -75,7 +78,18 @@ public class CapGraph implements Graph {
 	@Override
 	public HashMap<Integer, HashSet<Integer>> exportGraph() {
 		// TODO Auto-generated method stub
-		return null;
+		HashMap<Integer, HashSet<Integer>> mapTemp = new HashMap<Integer, HashSet<Integer>>(); 
+		for (int i : adjListsMap.keySet()) {
+			//System.out.println("print i " + i);
+			HashSet<Integer> setTemp = new HashSet<Integer>();
+			mapTemp.put(i,  setTemp);
+			for (int j : adjListsMap.get(i)) {
+				//System.out.println("print j " + j);
+				(mapTemp.get(i)).add(j);
+			}
+			
+		}
+		return mapTemp;
 	}
 
 }
