@@ -1,5 +1,6 @@
 package graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,8 @@ public interface Graph {
 
     /* Finds the egonet centered at a given node. */
     public Graph getEgonet(int center);
+    
+    public ArrayList<Integer> getEdges(int vertex);
 
     /* Returns all SCCs in a directed graph. Recall that the warm up
      * assignment assumes all Graphs are directed, and we will only 

@@ -56,10 +56,9 @@ public class EgoGrader extends Grader {
             feedback += "\nGRAPH: facebook_ucsd.txt";
             //graph.exportGraph();
             for (int i = 0; i < 10; i++) {
+            //for (int i = 7; i < 8; i++) {
                 feedback += appendFeedback(i + 1, "Starting from node " + i);
                 // Run user's implementation and make the output readable
-//                graph.exportGraph();
-                
                 HashMap<Integer, HashSet<Integer>> res = graph.getEgonet(i).exportGraph();
                 BufferedReader br = new BufferedReader(new FileReader("data/ego_answers/ego_" + i + ".txt"));
                 String next;
