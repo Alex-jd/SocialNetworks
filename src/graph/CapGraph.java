@@ -107,10 +107,11 @@ public class CapGraph implements Graph {
 	public HashMap<Integer, HashSet<Integer>> exportGraph() {
 		// TODO Auto-generated method stub
 		HashMap<Integer, HashSet<Integer>> mapTemp = new HashMap<Integer, HashSet<Integer>>(); 
-		
+		//System.out.println("KeySet: " + adjListsMap.keySet() );
 		for (int i : adjListsMap.keySet()) {
 			HashSet<Integer> setTemp = new HashSet<Integer>();
 			mapTemp.put(i,  setTemp);
+			//System.out.println("Current vertex: " + i);
 			
 			for (int j : adjListsMap.get(i)) {
 				(mapTemp.get(i)).add(j);
