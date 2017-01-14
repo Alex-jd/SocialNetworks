@@ -73,15 +73,15 @@ public class CapGraph implements Graph {
 		// TODO Auto-generated method stub
 		Graph egoGraph = new CapGraph();
 		
-		for (int j : adjListsMap.get(center)) {	//iterator neighbors for center (current) vertex
-			for (int i : adjListsMap.get(j)) { //iterator neighbors for vertex j (neighbors of center neighbors)
-				if (i == center) {	// if neighbor of center neighbors equals to center 
-					egoGraph.addVertex(j);	// add the vertex to Object egoGraph
+		for (final int firstNeighb : adjListsMap.get(center)) {	//iterator neighbors for center (current) vertex
+			for (final int secNeighb : adjListsMap.get(firstNeighb)) { //iterator neighbors for vertex j (neighbors of center neighbors)
+				if (secNeighb == center) {	// if neighbor of center neighbors equals to center 
+					egoGraph.addVertex(firstNeighb);	// add the vertex to Object egoGraph
 				} else {					// 
-					for (int ii : adjListsMap.get(i)) { // iterator neighbors of neighbors neighbor
-						if (ii == center) {	//if neighbor of double neighbors (two hope way) equals to center
-							egoGraph.addVertex(j);	// add the vertex to Object egoGraph
-							egoGraph.addEdge(j, i); // add the edges to Object egoGraph
+					for (final int firdNeighb : adjListsMap.get(secNeighb)) { // iterator neighbors of neighbors neighbor
+						if (firdNeighb == center) {	//if neighbor of double neighbors (two hope way) equals to center
+							egoGraph.addVertex(firstNeighb);	// add the vertex to Object egoGraph
+							egoGraph.addEdge(firstNeighb, secNeighb); // add the edges to Object egoGraph
 						}
 					}
 				}
