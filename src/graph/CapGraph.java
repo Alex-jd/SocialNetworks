@@ -6,8 +6,11 @@ package graph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * @author Your name here.
@@ -97,7 +100,56 @@ public class CapGraph implements Graph {
 	@Override
 	public List<Graph> getSCCs() {
 		// TODO Auto-generated method stub
+		Queue<Integer> virtices = new LinkedList<Integer>(adjListsMap.keySet()); //Get the primary stack - just list of all nodes
+		//Set<Integer> visited = new HashSet<Integer>(); // Collection for visited nodes
+		
+		//Get the first DFS(G)
+		deepFirstSearch(adjListsMap, virtices);
+		//Get the transposition graph G(t)
+		Map<Integer,ArrayList<Integer>> adjListsMapTrans = new HashMap<Integer,ArrayList<Integer>>(graphTranspose(adjListsMap) );
+		//Get the DFS(G(t))
+		
+		System.out.println(finished);
 		return null;
+	}
+	
+	//Method to do transposition the graph
+	private Map<Integer,ArrayList<Integer>> graphTranspose(Map<Integer,ArrayList<Integer>> graphNonTrans) {
+		for (int vertex: graphNonTrans.get(key)) {
+			
+		}
+		
+		
+		return null;
+	}
+	
+	private Set<Integer> visited = new HashSet<Integer>();
+	private Queue<Integer> finished = new LinkedList<Integer>();
+	
+	private Queue<Integer> deepFirstSearch(final Map<Integer, ArrayList<Integer>> adjListsMap2, final Queue<Integer> virtices) {
+		int currVertex = 0;
+		visited.clear();
+		finished.clear();
+		while (!virtices.isEmpty() ) {
+			currVertex = virtices.poll();
+			if (!visited.contains(currVertex) ) {
+				deepFirstSearchVisit(currVertex);
+			}
+		}
+		return finished;
+		
+
+	}
+	
+	private void deepFirstSearchVisit (final int currVertex) {
+		visited.add(currVertex); // Add v to visited
+		for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
+			if (!visited.contains(currNeighb) ) {
+				deepFirstSearchVisit(currNeighb); // Recursion
+			}
+		}
+		finished.add(currVertex); // Add v to finished
+		
 	}
 
 	/* (non-Javadoc)
