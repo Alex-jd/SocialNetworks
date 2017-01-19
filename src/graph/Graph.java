@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 public interface Graph {
@@ -30,4 +31,10 @@ public interface Graph {
 	 * The returned representation ignores edge weights and 
 	 * multi-edges.  */
     public HashMap<Integer, HashSet<Integer>> exportGraph();
+
+	public void addVertex(ArrayList<Integer> neigbors);
+	
+	public Queue<Integer> getVerticesStack();
+
+	public Queue<Integer>  depthFirstSearch(Queue<Integer> finished);
 } 

@@ -43,16 +43,28 @@ public class CapGraph implements Graph {
 	 * @see graph.Graph#addVertex(int)
 	 */
 	@Override
-	public void addVertex(int num) {
+	public void addVertex(int vertex) {
 		// TODO Auto-generated method stub
-		//System.out.println(num);
+		//System.out.println(vertex);
 		ArrayList<Integer> neighbors = new ArrayList<Integer>();
-		if (!adjListsMap.containsKey(num)) {
-			adjListsMap.put(num,  neighbors);
+		if (!adjListsMap.containsKey(vertex)) {
+			adjListsMap.put(vertex,  neighbors);
 			numVertices++;
 		}
 		//System.out.println(numVertices);
 	}
+	
+	@Overload
+	public void addVertex(ArrayList<Integer> listOfVerteces) {
+		for(Integer vertex:listOfVerteces) {
+			if (!adjListsMap.containsKey(vertex)) {
+				ArrayList<Integer> neighbors = new ArrayList<Integer>();
+				adjListsMap.put(vertex,  neighbors);
+				numVertices++;
+			}
+		}
+	}
+	
 
 	/* (non-Javadoc)
 	 * @see graph.Graph#addEdge(int, int)
@@ -61,7 +73,6 @@ public class CapGraph implements Graph {
 	public void addEdge(int from, int to) {
 		// TODO Auto-generated method stub
 		(adjListsMap.get(from)).add(to);
-
 	}
 	
 	public ArrayList<Integer> getEdges(int vertex) {
@@ -100,52 +111,65 @@ public class CapGraph implements Graph {
 	@Override
 	public List<Graph> getSCCs() {
 		// TODO Auto-generated method stub
-		Queue<Integer> virtices = new LinkedList<Integer>(adjListsMap.keySet()); //Get the primary stack - just list of all nodes
+		//Queue<Integer> vertices = new LinkedList<Integer>(adjListsMap.keySet()); //Get the primary stack - just list of all nodes
 		//Set<Integer> visited = new HashSet<Integer>(); // Collection for visited nodes
 		
 		//Get the first DFS(G)
-		deepFirstSearch(adjListsMap, virtices);
+		//depthFirstSearch(this, getVerticesStack());
+		depthFirstSearch(getVerticesStack());
 		//Get the transposition graph G(t)
-		Map<Integer,ArrayList<Integer>> adjListsMapTrans = new HashMap<Integer,ArrayList<Integer>>(graphTranspose(adjListsMap) );
+		//Map<Integer,ArrayList<Integer>> adjListsMapTrans = new HashMap<Integer,ArrayList<Integer>>(graphTranspose(adjListsMap).exportGraph() );
+		Graph transGraph = graphTranspose(adjListsMap);
 		//Get the DFS(G(t))
+		//transGraph.depthFirstSearch(transGraph, transGraph.getVerticesStack());
+		transGraph.depthFirstSearch(this.finished);
 		
 		System.out.println(finished);
 		return null;
 	}
 	
 	//Method to do transposition the graph
-	private Map<Integer,ArrayList<Integer>> graphTranspose(Map<Integer,ArrayList<Integer>> graphNonTrans) {
-		for (int vertex: graphNonTrans.get(key)) {
-			
+	private Graph graphTranspose(Map<Integer,ArrayList<Integer>> graphNonTrans) {
+		Graph graphTrans = new CapGraph();
+		
+		for (int vertex : graphNonTrans.keySet()) {
+			for (int neigbors: graphNonTrans.get(vertex)) {
+				graphTrans.addVertex(neigbors);
+			}
 		}
-		
-		
 		return null;
 	}
 	
+	// Get the Stack of Vertices (LinkedList)
+	public Queue<Integer> getVerticesStack() {
+		return new LinkedList<Integer>(adjListsMap.keySet());
+	}
+	
+	//Create the new collection required to depthFirsSearch
 	private Set<Integer> visited = new HashSet<Integer>();
 	private Queue<Integer> finished = new LinkedList<Integer>();
 	
-	private Queue<Integer> deepFirstSearch(final Map<Integer, ArrayList<Integer>> adjListsMap2, final Queue<Integer> virtices) {
+	//public Queue<Integer> depthFirstSearch(final Graph currentGraph, final Queue<Integer> vertices) {
+	//public Queue<Integer> depthFirstSearch() {
+	public Queue<Integer> depthFirstSearch(final Queue<Integer> vertices) {
+		//Queue<Integer> vertices = getVerticesStack();
 		int currVertex = 0;
 		visited.clear();
 		finished.clear();
-		while (!virtices.isEmpty() ) {
-			currVertex = virtices.poll();
+		while (!vertices.isEmpty() ) {
+			currVertex = vertices.poll();
 			if (!visited.contains(currVertex) ) {
-				deepFirstSearchVisit(currVertex);
+				depthFirstSearchVisit(currVertex);
 			}
 		}
-		return finished;
-		
-
+		return finished;	
 	}
 	
-	private void deepFirstSearchVisit (final int currVertex) {
+	private void depthFirstSearchVisit (final int currVertex) {
 		visited.add(currVertex); // Add v to visited
 		for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
 			if (!visited.contains(currNeighb) ) {
-				deepFirstSearchVisit(currNeighb); // Recursion
+				depthFirstSearchVisit(currNeighb); // Recursion
 			}
 		}
 		finished.add(currVertex); // Add v to finished
