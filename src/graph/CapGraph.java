@@ -78,6 +78,11 @@ public class CapGraph implements Graph {
 	public ArrayList<Integer> getEdges(int vertex) {
 		return adjListsMap.get(vertex);
 	}
+	
+	// Get the Stack of Vertices (LinkedList)
+	public Queue<Integer> getVerticesStack() {
+		return new LinkedList<Integer>(adjListsMap.keySet());
+	}
 
 	/* (non-Javadoc)
 	 * @see graph.Graph#getEgonet(int)
@@ -122,9 +127,10 @@ public class CapGraph implements Graph {
 		Graph transGraph = graphTranspose(adjListsMap);
 		//Get the DFS(G(t))
 		//transGraph.depthFirstSearch(transGraph, transGraph.getVerticesStack());
-		transGraph.depthFirstSearch(this.finished);
 		
-		System.out.println(finished);
+		Queue<Integer> test = transGraph.depthFirstSearch(this.finished);
+		
+		System.out.println(test);
 		return null;
 	}
 	
@@ -133,18 +139,18 @@ public class CapGraph implements Graph {
 		Graph graphTrans = new CapGraph();
 		
 		for (int vertex : graphNonTrans.keySet()) {
-			for (int neigbors: graphNonTrans.get(vertex)) {
-				graphTrans.addVertex(neigbors);
+			//graphTrans.addVertex(graphNonTrans.get(vertex));
+			for (int neighbor : graphNonTrans.get(vertex)) {
+				graphTrans.addVertex(neighbor);
+				//System.out.println(neighbor);
+				graphTrans.addEdge(neighbor, vertex);
+				//System.out.println(vertex);
 			}
 		}
-		return null;
+		return graphTrans;
 	}
 	
-	// Get the Stack of Vertices (LinkedList)
-	public Queue<Integer> getVerticesStack() {
-		return new LinkedList<Integer>(adjListsMap.keySet());
-	}
-	
+		
 	//Create the new collection required to depthFirsSearch
 	private Set<Integer> visited = new HashSet<Integer>();
 	private Queue<Integer> finished = new LinkedList<Integer>();
@@ -170,6 +176,7 @@ public class CapGraph implements Graph {
 		for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
 			if (!visited.contains(currNeighb) ) {
 				depthFirstSearchVisit(currNeighb); // Recursion
+				//System.out.println(currNeighb);
 			}
 		}
 		finished.add(currVertex); // Add v to finished
