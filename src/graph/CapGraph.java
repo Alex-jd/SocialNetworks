@@ -159,26 +159,30 @@ public class CapGraph implements Graph {
 	//public Queue<Integer> depthFirstSearch() {
 	public Queue<Integer> depthFirstSearch(final Queue<Integer> vertices) {
 		//Queue<Integer> vertices = getVerticesStack();
+		List<Graph> SCC_List = new LinkedList();
 		int currVertex = 0;
 		visited.clear();
 		finished.clear();
 		while (!vertices.isEmpty() ) {
 			currVertex = vertices.poll();
+			Graph currCapGraph = new CapGraph(currVertex);
+			SCC_List.add(currCapGraph); //Create and add object CapGraph with adding vertex
 			if (!visited.contains(currVertex) ) {
-				depthFirstSearchVisit(currVertex);
+				depthFirstSearchVisit(currVertex, currCapGraph);
 			}
 		}
 		return finished;	
 	}
 	
-	private void depthFirstSearchVisit (final int currVertex) {
+	private void depthFirstSearchVisit (final int currVertex, Graph currCapGraph) {
 		visited.add(currVertex); // Add v to visited
 		for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
 			if (!visited.contains(currNeighb) ) {
-				depthFirstSearchVisit(currNeighb); // Recursion
+				depthFirstSearchVisit(currNeighb, currCapGraph); // Recursion
 				//System.out.println(currNeighb);
 			}
 		}
+		
 		finished.add(currVertex); // Add v to finished
 		
 	}
