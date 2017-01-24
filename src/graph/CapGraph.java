@@ -116,6 +116,7 @@ public class CapGraph implements Graph {
 	@Override
 	public List<Graph> getSCCs() {
 		// TODO Auto-generated method stub
+		System.out.println("get New SCC");
 		//Queue<Integer> vertices = new LinkedList<Integer>(adjListsMap.keySet()); //Get the primary stack - just list of all nodes
 		//Set<Integer> visited = new HashSet<Integer>(); // Collection for visited nodes
 		
@@ -130,8 +131,11 @@ public class CapGraph implements Graph {
 		
 		Queue<Integer> test = transGraph.depthFirstSearch(this.finished);
 		
-		System.out.println(test);
-		return null;
+		//System.out.println("test_exportGraph "+ test);
+		for (Graph temp : SCC_List) {
+			System.out.println("temp_exportGraph " + temp.exportGraph());
+		}
+		return SCC_List;
 	}
 	
 	//Method to do transposition the graph
@@ -147,6 +151,7 @@ public class CapGraph implements Graph {
 				//System.out.println(vertex);
 			}
 		}
+		System.out.println("GRAPH transpose " + graphTrans.exportGraph());
 		return graphTrans;
 	}
 	
@@ -154,37 +159,71 @@ public class CapGraph implements Graph {
 	//Create the new collection required to depthFirsSearch
 	private Set<Integer> visited = new HashSet<Integer>();
 	private Queue<Integer> finished = new LinkedList<Integer>();
+	List<Graph> SCC_List = new LinkedList();
 	
 	//public Queue<Integer> depthFirstSearch(final Graph currentGraph, final Queue<Integer> vertices) {
 	//public Queue<Integer> depthFirstSearch() {
 	public Queue<Integer> depthFirstSearch(final Queue<Integer> vertices) {
-		//Queue<Integer> vertices = getVerticesStack();
-		List<Graph> SCC_List = new LinkedList();
 		int currVertex = 0;
 		visited.clear();
 		finished.clear();
+		System.out.println("vertrices  " + vertices);
 		while (!vertices.isEmpty() ) {
 			currVertex = vertices.poll();
+			System.out.println("vertrices-" + vertices);
+			System.out.println("currVertex " + currVertex);
 			Graph currCapGraph = new CapGraph(currVertex);
 			SCC_List.add(currCapGraph); //Create and add object CapGraph with adding vertex
 			if (!visited.contains(currVertex) ) {
-				depthFirstSearchVisit(currVertex, currCapGraph);
+				depthFirstSearchVisit(currVertex, currCapGraph, -1, true);
 			}
 		}
+		for (Graph temp : SCC_List) {
+			System.out.println("temp_exportGraph depth " + temp.exportGraph());
+		}
+		System.out.println("finished " + finished);
 		return finished;	
 	}
 	
-	private void depthFirstSearchVisit (final int currVertex, Graph currCapGraph) {
-		visited.add(currVertex); // Add v to visited
-		for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
-			if (!visited.contains(currNeighb) ) {
-				depthFirstSearchVisit(currNeighb, currCapGraph); // Recursion
-				//System.out.println(currNeighb);
+	private void depthFirstSearchVisit (final int currVertex, Graph currCapGraph, int toVertex, boolean trigger) {
+		
+		if (trigger) {
+			visited.add(currVertex); // Add v to visited
+			currCapGraph.addVertex(currVertex);
+			System.out.println("currCapGraph true" + currCapGraph.getVerticesStack());
+			if (!adjListsMap.get(currVertex).isEmpty() ) {
+				for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
+					if (!visited.contains(currNeighb) ) {
+						System.out.println("currNeighb true " + currNeighb);
+						depthFirstSearchVisit(currVertex, currCapGraph, currNeighb, false); // Recursion
+					}
+				}
 			}
+			finished.add(currVertex); // Add v to finished
+			System.out.println("finished true " + finished);
+			
 		}
-		
-		finished.add(currVertex); // Add v to finished
-		
+		else {
+			visited.add(toVertex); // Add v to visited
+			//currCapGraph.addEdge(currVertex, toVertex);
+			if (!adjListsMap.get(toVertex).isEmpty() && ) {
+				for (int currNeighb: adjListsMap.get(toVertex)) { // Iteration of all neighbors of v
+					if (!visited.contains(currNeighb) ) {
+						//System.out.println("I am here!");
+						System.out.println("currVertex false " + currVertex);
+						System.out.println("currNeighb false " + currNeighb);
+						depthFirstSearchVisit(currVertex, currCapGraph, currNeighb, false); // Recursion
+					}
+				}
+			}
+			currCapGraph.addEdge(currVertex, toVertex);
+			System.out.println("currCapGraph false " + currCapGraph.getVerticesStack());
+			System.out.println("currCapGraph false export " + currCapGraph.exportGraph());
+			finished.add(toVertex); // Add v to finished
+			System.out.println("finished false " + finished);
+		}
+			
+		//finished.add(currVertex); // Add v to finished
 	}
 
 	/* (non-Javadoc)
