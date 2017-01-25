@@ -128,7 +128,7 @@ public class CapGraph implements Graph {
 		Graph transGraph = graphTranspose(adjListsMap);
 		//Get the DFS(G(t))
 		//transGraph.depthFirstSearch(transGraph, transGraph.getVerticesStack());
-		
+		SCC_List.clear();
 		Queue<Integer> test = transGraph.depthFirstSearch(this.finished);
 		
 		//System.out.println("test_exportGraph "+ test);
@@ -206,7 +206,7 @@ public class CapGraph implements Graph {
 		else {
 			visited.add(toVertex); // Add v to visited
 			//currCapGraph.addEdge(currVertex, toVertex);
-			if (!adjListsMap.get(toVertex).isEmpty() && ) {
+			if (adjListsMap.containsKey(toVertex) && !adjListsMap.get(toVertex).isEmpty()) {
 				for (int currNeighb: adjListsMap.get(toVertex)) { // Iteration of all neighbors of v
 					if (!visited.contains(currNeighb) ) {
 						//System.out.println("I am here!");
