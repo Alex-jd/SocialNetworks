@@ -36,5 +36,5 @@ public interface Graph {
 	
 	public Queue<Integer> getVerticesStack();
 
-	public Queue<Integer>  depthFirstSearch(Queue<Integer> finished);
+	public List<Graph>  depthFirstSearch(Queue<Integer> finished);
 } 

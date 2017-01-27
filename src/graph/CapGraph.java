@@ -128,14 +128,16 @@ public class CapGraph implements Graph {
 		Graph transGraph = graphTranspose(adjListsMap);
 		//Get the DFS(G(t))
 		//transGraph.depthFirstSearch(transGraph, transGraph.getVerticesStack());
-		SCC_List.clear();
-		Queue<Integer> test = transGraph.depthFirstSearch(this.finished);
-		
+		//SCC_List.clear();
+		//finished.clear();
+		//Queue<Integer> test = transGraph.depthFirstSearch(this.finished);
+		//transGraph.depthFirstSearch(finished);
 		//System.out.println("test_exportGraph "+ test);
-		for (Graph temp : SCC_List) {
+		/*for (Graph temp : SCC_List) {
 			System.out.println("temp_exportGraph " + temp.exportGraph());
-		}
-		return SCC_List;
+		}*/
+		return transGraph.depthFirstSearch(finished);
+		//return SCC_List;
 	}
 	
 	//Method to do transposition the graph
@@ -159,11 +161,13 @@ public class CapGraph implements Graph {
 	//Create the new collection required to depthFirsSearch
 	private Set<Integer> visited = new HashSet<Integer>();
 	private Queue<Integer> finished = new LinkedList<Integer>();
-	List<Graph> SCC_List = new LinkedList();
+	//List<Graph> SCC_List = new LinkedList();
 	
 	//public Queue<Integer> depthFirstSearch(final Graph currentGraph, final Queue<Integer> vertices) {
 	//public Queue<Integer> depthFirstSearch() {
-	public Queue<Integer> depthFirstSearch(final Queue<Integer> vertices) {
+	//public Queue<Integer> depthFirstSearch(final Queue<Integer> vertices) {
+	public List<Graph> depthFirstSearch(final Queue<Integer> vertices) {
+		List<Graph> SCC_List = new LinkedList<Graph>();
 		int currVertex = 0;
 		visited.clear();
 		finished.clear();
@@ -182,7 +186,7 @@ public class CapGraph implements Graph {
 			System.out.println("temp_exportGraph depth " + temp.exportGraph());
 		}
 		System.out.println("finished " + finished);
-		return finished;	
+		return SCC_List;	
 	}
 	
 	private void depthFirstSearchVisit (final int currVertex, Graph currCapGraph, int toVertex, boolean trigger) {

@@ -34,10 +34,12 @@ public class GraphLoader {
             if (!seen.contains(v1)) {
                 g.addVertex(v1);
                 seen.add(v1);
+                System.out.println("GraphLoader: vertex v1 " + v1);
             }
             if (!seen.contains(v2)) {
                 g.addVertex(v2);
                 seen.add(v2);
+                System.out.println("GraphLoader: vertex v2 " + v2);
             }
             g.addEdge(v1, v2);
         }
