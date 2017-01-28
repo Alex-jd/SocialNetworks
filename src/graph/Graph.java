@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
 public interface Graph {
-    /* Creates a vertex with the given number. */
+    //String adjListsMap = null;
+
+	/* Creates a vertex with the given number. */
     public void addVertex(int num);
     
     /* Creates an edge from the first vertex to the second. */
@@ -37,4 +40,6 @@ public interface Graph {
 	public Queue<Integer> getVerticesStack();
 
 	public List<Graph>  depthFirstSearch(Queue<Integer> finished);
+
+	public Map<Integer,ArrayList<Integer>> getMatrix();
 } 

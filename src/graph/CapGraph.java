@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author Your name here.
@@ -75,13 +76,21 @@ public class CapGraph implements Graph {
 		(adjListsMap.get(from)).add(to);
 	}
 	
+	
+	public Map<Integer,ArrayList<Integer>>  getMatrix() {
+		return adjListsMap;
+	}
+	
 	public ArrayList<Integer> getEdges(int vertex) {
 		return adjListsMap.get(vertex);
 	}
 	
 	// Get the Stack of Vertices (LinkedList)
 	public Queue<Integer> getVerticesStack() {
-		return new LinkedList<Integer>(adjListsMap.keySet());
+		System.out.println("adjListsMap.keySet " +adjListsMap.keySet());
+		TreeSet<Integer> sortSet = new TreeSet<Integer>(adjListsMap.keySet());
+		System.out.println("sortSet " + new LinkedList<Integer>(sortSet));
+		return new LinkedList<Integer>(sortSet);
 	}
 
 	/* (non-Javadoc)
@@ -136,24 +145,37 @@ public class CapGraph implements Graph {
 		/*for (Graph temp : SCC_List) {
 			System.out.println("temp_exportGraph " + temp.exportGraph());
 		}*/
-		return transGraph.depthFirstSearch(finished);
+		final Queue<Integer> reversOrderFinished = new LinkedList<Integer>();
+		final List<Integer> tempArrayList = new ArrayList<Integer>(finished);
+		for (int i = tempArrayList.size() -1 ; i >= 0; i--) {
+			reversOrderFinished.add(tempArrayList.get(i));
+		}
+		
+		//System.out.println("finished " + finished);
+		//System.out.println("reversOrderFinished " + reversOrderFinished);
+		
+		
+		return transGraph.depthFirstSearch(reversOrderFinished);
 		//return SCC_List;
 	}
 	
 	//Method to do transposition the graph
 	private Graph graphTranspose(Map<Integer,ArrayList<Integer>> graphNonTrans) {
 		Graph graphTrans = new CapGraph();
-		
+		//System.out.println("graphTranspose " + graphNonTrans);
 		for (int vertex : graphNonTrans.keySet()) {
+			//System.out.println("graphNonTrans.keySet " + graphNonTrans.keySet());
 			//graphTrans.addVertex(graphNonTrans.get(vertex));
 			for (int neighbor : graphNonTrans.get(vertex)) {
+				//System.out.println("vertex=" + vertex +"neighbor=" + neighbor + " " + "graphNonTrans.get(vertex)=" + graphNonTrans.get(vertex));
 				graphTrans.addVertex(neighbor);
 				//System.out.println(neighbor);
 				graphTrans.addEdge(neighbor, vertex);
 				//System.out.println(vertex);
+				//System.out.println("GRAPH transpose in loop " + graphTrans.getMatrix());
 			}
 		}
-		System.out.println("GRAPH transpose " + graphTrans.exportGraph());
+		System.out.println("GRAPH transpose " + graphTrans.getMatrix());
 		return graphTrans;
 	}
 	
@@ -171,21 +193,21 @@ public class CapGraph implements Graph {
 		int currVertex = 0;
 		visited.clear();
 		finished.clear();
-		System.out.println("vertrices  " + vertices);
+		//System.out.println("vertrices  " + vertices);
 		while (!vertices.isEmpty() ) {
 			currVertex = vertices.poll();
-			System.out.println("vertrices-" + vertices);
-			System.out.println("currVertex " + currVertex);
-			Graph currCapGraph = new CapGraph(currVertex);
-			SCC_List.add(currCapGraph); //Create and add object CapGraph with adding vertex
+			//System.out.println("vertrices-" + vertices);
+			//System.out.println("currVertex " + currVertex);
 			if (!visited.contains(currVertex) ) {
+				Graph currCapGraph = new CapGraph(currVertex);
+				SCC_List.add(currCapGraph); //Create and add object CapGraph with adding vertex
 				depthFirstSearchVisit(currVertex, currCapGraph, -1, true);
 			}
 		}
 		for (Graph temp : SCC_List) {
-			System.out.println("temp_exportGraph depth " + temp.exportGraph());
+			//System.out.println("temp_exportGraph depth " + temp.exportGraph());
 		}
-		System.out.println("finished " + finished);
+		//System.out.println("finished " + finished);
 		return SCC_List;	
 	}
 	
@@ -194,37 +216,39 @@ public class CapGraph implements Graph {
 		if (trigger) {
 			visited.add(currVertex); // Add v to visited
 			currCapGraph.addVertex(currVertex);
-			System.out.println("currCapGraph true" + currCapGraph.getVerticesStack());
-			if (!adjListsMap.get(currVertex).isEmpty() ) {
+			//System.out.println("currCapGraph true" + currCapGraph.getMatrix());
+			if (adjListsMap.containsKey(currVertex) && !adjListsMap.get(currVertex).isEmpty() ) {
 				for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
 					if (!visited.contains(currNeighb) ) {
-						System.out.println("currNeighb true " + currNeighb);
+						//System.out.println("currNeighb true " + currNeighb);
 						depthFirstSearchVisit(currVertex, currCapGraph, currNeighb, false); // Recursion
 					}
 				}
 			}
 			finished.add(currVertex); // Add v to finished
-			System.out.println("finished true " + finished);
+			//System.out.println("finished true " + finished);
 			
 		}
 		else {
 			visited.add(toVertex); // Add v to visited
 			//currCapGraph.addEdge(currVertex, toVertex);
+			//System.out.println("currCapGraph false " + currCapGraph.getMatrix());
 			if (adjListsMap.containsKey(toVertex) && !adjListsMap.get(toVertex).isEmpty()) {
 				for (int currNeighb: adjListsMap.get(toVertex)) { // Iteration of all neighbors of v
 					if (!visited.contains(currNeighb) ) {
 						//System.out.println("I am here!");
-						System.out.println("currVertex false " + currVertex);
-						System.out.println("currNeighb false " + currNeighb);
+						//System.out.println("currVertex false " + currVertex);
+						//System.out.println("currNeighb false " + currNeighb);
 						depthFirstSearchVisit(currVertex, currCapGraph, currNeighb, false); // Recursion
 					}
 				}
 			}
-			currCapGraph.addEdge(currVertex, toVertex);
-			System.out.println("currCapGraph false " + currCapGraph.getVerticesStack());
-			System.out.println("currCapGraph false export " + currCapGraph.exportGraph());
+			//currCapGraph.addEdge(currVertex, toVertex);
+			currCapGraph.addVertex(toVertex);
+			//System.out.println("currCapGraph false out " + currCapGraph.getMatrix());
+			//System.out.println("currCapGraph false export " + currCapGraph.exportGraph());
 			finished.add(toVertex); // Add v to finished
-			System.out.println("finished false " + finished);
+			//System.out.println("finished false out " + finished);
 		}
 			
 		//finished.add(currVertex); // Add v to finished
@@ -238,14 +262,15 @@ public class CapGraph implements Graph {
 		// TODO Auto-generated method stub
 		HashMap<Integer, HashSet<Integer>> mapTemp = new HashMap<Integer, HashSet<Integer>>(); 
 		//System.out.println("KeySet: " + adjListsMap.keySet() );
-		for (int i : adjListsMap.keySet()) {
-			HashSet<Integer> setTemp = new HashSet<Integer>();
-			mapTemp.put(i,  setTemp);
+		for (Integer i : adjListsMap.keySet()) {
+			//HashSet<Integer> setTemp = new HashSet<Integer>();
+			//mapTemp.put(i,  setTemp);
 			//System.out.println("Current vertex: " + i);
-			
-			for (int j : adjListsMap.get(i)) {
-				(mapTemp.get(i)).add(j);
+			TreeSet<Integer> tempTree = new TreeSet<Integer>();
+			for (Integer j : adjListsMap.get(i)) {
+				tempTree.add(j);
 			}
+			mapTemp.put(i,  new HashSet<Integer>(tempTree));
 			
 		}
 		return mapTemp;
