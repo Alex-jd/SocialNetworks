@@ -63,10 +63,8 @@ public class SCCGrader extends Grader {
         try {
 
             for(int i = 0; i < 10; i++) {
-            //for(int i = 0; i < 1; i++) {
                 Graph g = new CapGraph();
                 Set<Integer> vertices;
-                System.out.println("Yes, I'm here");
                 String answerFile = "data/scc_answers/scc_" + (i + 1) + ".txt";
                 GraphLoader.loadGraph(g, "data/scc/test_" + (i +1)+ ".txt");
                 BufferedReader br = new BufferedReader(new FileReader(answerFile));
@@ -82,9 +80,7 @@ public class SCCGrader extends Grader {
                     while(sc.hasNextInt()) {
                         vertices.add(sc.nextInt());
                     }
-                    //System.out.println("VERTICES " + vertices);
                     answer.add(vertices);
-
 
                     sc.close();
                 }
@@ -95,29 +91,18 @@ public class SCCGrader extends Grader {
                 List<Graph> graphSCCs = g.getSCCs();
                 
                 List<Set<Integer>> sccs = new ArrayList<Set<Integer>>();
-                System.out.println("I try to getSCCs ");
                 for(Graph graph : graphSCCs) {
-                	//System.out.println("Try to get graph instance throuth the loop");
-                	//System.out.println("SCC: get exportGraph " + graph.exportGraph());
                     HashMap<Integer, HashSet<Integer>> curr = graph.exportGraph();
-                    //System.out.println("SCC: get curr HashMap " + curr);
-                    //System.out.println("SCC: get curr.entrySet " + curr.entrySet());
                     TreeSet<Integer> scc = new TreeSet<Integer>();
                     for (Map.Entry<Integer, HashSet<Integer>> entry : curr.entrySet()) {
                         scc.add(entry.getKey());
-                        //System.out.println("Entry SET " + entry.getKey().getClass());
-                        //System.out.println("View the scc in nested loop " + scc);
                     }
-                    //System.out.println("View the scc " + scc);
                     sccs.add(scc);
-                    //System.out.println("SCCS list " + sccs);
                 }
 
-                System.out.println("Out of loop");
                 boolean testFailed = false;
                 testsPassed += answer.size() + sccs.size();
                 totalTests += answer.size() + sccs.size();
-                //System.out.println("answerSCC.size=" + answer.size() + " " + "sccs.size=" + sccs.size());
 
                 Set<Integer> answerSCC = null;
                 Set<Integer> scc = null;
@@ -127,12 +112,10 @@ public class SCCGrader extends Grader {
                 for(; j < answer.size(); j++) {
 
                     answerSCC = answer.get(j);
-                    //System.out.println("answerSCC =" +  answerSCC);
                     scc = null;
 
                     if(j < sccs.size()) {
                         scc = sccs.get(j);
-                        //System.out.println("scc nierby finish " + scc);
                     }
 
 
