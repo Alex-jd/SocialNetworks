@@ -126,19 +126,20 @@ public class CapGraph implements Graph {
 		//Get the first DFS(G)
 		depthFirstSearch(getVerticesStack());
 		//Get the transposition graph G(t)
-		Graph transGraph = graphTranspose(adjListsMap);
+		final Graph transGraph = graphTranspose(adjListsMap);
 		//Get the DFS(G(t))
 		final Queue<Integer> reversOrderFinished = new LinkedList<Integer>();
-		final List<Integer> tempArrayList = new ArrayList<Integer>(finished);
+		final List<Integer> tempArrayList = new ArrayList<Integer>(finished); // get the ArrayList from finished(queue)
+		//Create the reverse order finished list 
 		for (int i = tempArrayList.size() -1 ; i >= 0; i--) {
-			reversOrderFinished.add(tempArrayList.get(i));
+			reversOrderFinished.add(tempArrayList.get(i) );
 		}
 		return transGraph.depthFirstSearch(reversOrderFinished);
 	}
 	
 	//Method to do transposition the graph
-	private Graph graphTranspose(Map<Integer,ArrayList<Integer>> graphNonTrans) {
-		Graph graphTrans = new CapGraph();
+	private Graph graphTranspose(final Map<Integer,ArrayList<Integer>> graphNonTrans) {
+		final Graph graphTrans = new CapGraph();
 		for (int vertex : graphNonTrans.keySet()) {
 			for (int neighbor : graphNonTrans.get(vertex)) {
 				graphTrans.addVertex(neighbor);
@@ -149,31 +150,31 @@ public class CapGraph implements Graph {
 	}
 	
 		
-	//Create the new collection required to depthFirsSearch
+	//Create the new collections required for depthFirsSearch
 	private Set<Integer> visited = new HashSet<Integer>();
 	private Queue<Integer> finished = new LinkedList<Integer>();
 
 	public List<Graph> depthFirstSearch(final Queue<Integer> vertices) {
-		List<Graph> SCC_List = new LinkedList<Graph>();
+		final List<Graph> SCC_List = new LinkedList<Graph>();
 		int currVertex = 0;
 		visited.clear();
 		finished.clear();
 		while (!vertices.isEmpty() ) {
 			currVertex = vertices.poll();
 			if (!visited.contains(currVertex) ) {
-				Graph currCapGraph = new CapGraph(currVertex);
+				final Graph currCapGraph = new CapGraph(currVertex);
 				SCC_List.add(currCapGraph); //Create and add object CapGraph with adding vertex
 				depthFirstSearchVisit(currVertex, currCapGraph, -1, true);
 			}
 		}
-		return SCC_List;	
+		return SCC_List;
 	}
 	
-	private void depthFirstSearchVisit (final int currVertex, Graph currCapGraph, int toVertex, boolean trigger) {
+	private void depthFirstSearchVisit (final int currVertex, final Graph currCapGraph, final int toVertex, boolean trigger) {
 		
 		if (trigger) {
 			visited.add(currVertex); // Add v to visited
-			currCapGraph.addVertex(currVertex);
+			currCapGraph.addVertex(currVertex); // add the vertex to currCapGraph
 			if (adjListsMap.containsKey(currVertex) && !adjListsMap.get(currVertex).isEmpty() ) {
 				for (int currNeighb: adjListsMap.get(currVertex)) { // Iteration of all neighbors of v
 					if (!visited.contains(currNeighb) ) {
@@ -193,7 +194,7 @@ public class CapGraph implements Graph {
 				}
 			}
 
-			currCapGraph.addVertex(toVertex);
+			currCapGraph.addVertex(toVertex); // add the vertex to currCapGraph
 			finished.add(toVertex); // Add v to finished
 		}
 	}
@@ -204,10 +205,9 @@ public class CapGraph implements Graph {
 	@Override
 	public HashMap<Integer, HashSet<Integer>> exportGraph() {
 		// TODO Auto-generated method stub
-		HashMap<Integer, HashSet<Integer>> mapTemp = new HashMap<Integer, HashSet<Integer>>(); 
-		for (Integer i : adjListsMap.keySet()) {
-			HashSet<Integer> setTemp = new HashSet<Integer>();
-			mapTemp.put(i,  setTemp);
+		final HashMap<Integer, HashSet<Integer>> mapTemp = new HashMap<Integer, HashSet<Integer>>(); 
+		for (final Map.Entry<Integer, ArrayList<Integer>> entry : adjListsMap.entrySet()) {
+			mapTemp.put(entry.getKey(),  new HashSet<Integer>(entry.getValue()) );
 		}
 		return mapTemp;
 	}
