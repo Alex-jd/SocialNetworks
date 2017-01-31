@@ -163,8 +163,7 @@ public class CapGraph implements Graph {
 				depthFirstSearchVisit(currVertex, currCapGraph, -1, true);
 			}
 		}
-		for (Graph temp : SCC_List) {
-		}
+		
 		return SCC_List;	
 	}
 	
