@@ -9,18 +9,18 @@ package graph.grader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.PrintWriter;
-import util.GraphLoader;
-import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.TreeSet;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
 import graph.CapGraph;
 import graph.Graph;
+import util.GraphLoader;
 
 public class SCCGrader extends Grader {
     public int totalTests;
@@ -62,7 +62,7 @@ public class SCCGrader extends Grader {
 
         try {
 
-            for(int i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
                 Graph g = new CapGraph();
                 Set<Integer> vertices;
                 String answerFile = "data/scc_answers/scc_" + (i + 1) + ".txt";
@@ -93,12 +93,17 @@ public class SCCGrader extends Grader {
                 List<Set<Integer>> sccs = new ArrayList<Set<Integer>>();
                 for(Graph graph : graphSCCs) {
                     HashMap<Integer, HashSet<Integer>> curr = graph.exportGraph();
+					// System.out.println(curr);
                     TreeSet<Integer> scc = new TreeSet<Integer>();
                     for (Map.Entry<Integer, HashSet<Integer>> entry : curr.entrySet()) {
                         scc.add(entry.getKey());
                     }
                     sccs.add(scc);
+					// System.out.println(sccs);
                 }
+				/*
+				 * for (Set<Integer> temp : sccs) { System.out.println(temp); }
+				 */
 
                 boolean testFailed = false;
                 testsPassed += answer.size() + sccs.size();

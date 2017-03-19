@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 
 public interface Graph {
     //String adjListsMap = null;
+
 
 	/* Creates a vertex with the given number. */
     public void addVertex(int num);
@@ -42,4 +42,8 @@ public interface Graph {
 	public List<Graph>  depthFirstSearch(Queue<Integer> finished);
 
 	public Map<Integer,ArrayList<Integer>> getMatrix();
+
+	public int getNumVertices();
+
+	public int getNumEdges();
 } 

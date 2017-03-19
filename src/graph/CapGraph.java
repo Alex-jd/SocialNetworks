@@ -25,19 +25,25 @@ public class CapGraph implements Graph {
 	private int numVertices;
 	private int numEdges;
 	
-	private Map<Integer,ArrayList<Integer>> adjListsMap;
+	private Map<Integer, ArrayList<Integer>> adjListsMap;
 	
 	public CapGraph() {
 		numVertices = 0;
 		numEdges = 0;
-		adjListsMap = new HashMap<Integer,ArrayList<Integer>>();
+		adjListsMap = new HashMap<Integer, ArrayList<Integer>>();
 	}
 	
 	public CapGraph(int vert) {
 		numVertices = 0;
 		numEdges = 0;
-		adjListsMap = new HashMap<Integer,ArrayList<Integer>>();
+		adjListsMap = new HashMap<Integer, ArrayList<Integer>>();
 		addVertex(vert);
+	}
+
+	public CapGraph(Map<Integer, ArrayList<Integer>> adjListsMap, int numVertices, int numEdges) {
+		this.numVertices = numVertices;
+		this.numEdges = numEdges;
+		this.adjListsMap = adjListsMap;
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +60,7 @@ public class CapGraph implements Graph {
 		}
 		//System.out.println(numVertices);
 	}
-	
+
 	@Overload
 	public void addVertex(ArrayList<Integer> listOfVerteces) {
 		for(Integer vertex:listOfVerteces) {
@@ -73,7 +79,10 @@ public class CapGraph implements Graph {
 	@Override
 	public void addEdge(int from, int to) {
 		// TODO Auto-generated method stub
-		(adjListsMap.get(from)).add(to);
+		if (!(adjListsMap.get(from)).contains(to)) {
+			(adjListsMap.get(from)).add(to);
+			numEdges++;
+		}
 	}
 	
 	
@@ -85,6 +94,14 @@ public class CapGraph implements Graph {
 		return adjListsMap.get(vertex);
 	}
 	
+	public int getNumVertices() {
+		return numVertices;
+	}
+
+	public int getNumEdges() {
+		return numEdges;
+	}
+
 	// Get the Stack of Vertices (LinkedList)
 	public Queue<Integer> getVerticesStack() {
 		TreeSet<Integer> sortSet = new TreeSet<Integer>(adjListsMap.keySet());
