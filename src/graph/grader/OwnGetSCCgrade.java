@@ -12,7 +12,6 @@ import graph.CapGraph;
 import graph.Graph;
 import util.GraphLoader;
 
-
 public class OwnGetSCCgrade {
 
 	public static void main(String[] args) {
