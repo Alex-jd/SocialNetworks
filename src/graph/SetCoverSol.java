@@ -12,10 +12,8 @@ public class SetCoverSol {
 	private TreeSet<Integer> cover;
 	// private int numOfVertices = 0;
 
-	public SetCoverSol() {
-		Graph g = new CapGraph();
-		GraphLoader.loadGraph(g, "data/twitter_combined.txt");
-		this.adjListsMap = g.getMatrix();
+	public SetCoverSol(Graph g) {
+		this.adjListsMap = g.getGraph();
 		this.setTheCover();
 	}
 
@@ -38,7 +36,9 @@ public class SetCoverSol {
 	}
 
 	public static void main(String[] args) {
-		SetCoverSol coverTest = new SetCoverSol();
+		Graph g = new CapGraph();
+		GraphLoader.loadGraph(g, "data/twitter_combined.txt");
+		SetCoverSol coverTest = new SetCoverSol(g);
 		System.out.println(coverTest.getTheCover());
 		System.out.println(coverTest.cover.size());
 	}
