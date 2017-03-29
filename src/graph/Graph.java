@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.TreeSet;
 
 public interface Graph {
@@ -21,6 +22,8 @@ public interface Graph {
 	public Graph getEgonet(int center);
 
 	public ArrayList<Integer> getEdges(int vertex);
+
+	public Set<Integer> getEdgesSort(int vertex);
 
 	/*
 	 * Returns all SCCs in a directed graph. Recall that the warm up assignment
@@ -38,6 +41,8 @@ public interface Graph {
 	public HashMap<Integer, HashSet<Integer>> exportGraph();
 
 	public HashMap<Integer, TreeSet<Integer>> getGraphValueSort();
+
+	public Set<Integer> getUnivers();
 
 	public void addVertex(ArrayList<Integer> neigbors);
 

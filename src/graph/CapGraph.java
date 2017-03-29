@@ -96,6 +96,10 @@ public class CapGraph implements Graph {
 		return adjListsMap.get(vertex);
 	}
 
+	public Set<Integer> getEdgesSort(int vertex) {
+		return new TreeSet<Integer>(adjListsMap.get(vertex));
+	}
+
 	public int getNumVertices() {
 		return numVertices;
 	}
@@ -275,12 +279,28 @@ public class CapGraph implements Graph {
 		return mapTemp;
 	}
 
+
 	public HashMap<Integer, TreeSet<Integer>> getGraphValueSort() {
 		final HashMap<Integer, TreeSet<Integer>> graphValueSort = new HashMap<Integer, TreeSet<Integer>>();
 		for (final Map.Entry<Integer, ArrayList<Integer>> entry : adjListsMap.entrySet()) {
 			graphValueSort.put(entry.getKey(), new TreeSet<Integer>(entry.getValue()));
 		}
 		return graphValueSort;
+	}
+
+	public Set<Integer> getUnivers() {
+		Set<Integer> universe = new TreeSet<Integer>();
+		for (Map.Entry<Integer, ArrayList<Integer>> entry : adjListsMap.entrySet()) {
+			if (!universe.contains(entry.getKey())) {
+				universe.add(entry.getKey());
+			}
+			for (int i : entry.getValue()) {
+				if (!universe.contains(i)) {
+					universe.add(i);
+				}
+			}
+		}
+		return universe;
 	}
 
 }
