@@ -275,4 +275,12 @@ public class CapGraph implements Graph {
 		return mapTemp;
 	}
 
+	public HashMap<Integer, TreeSet<Integer>> getGraphValueSort() {
+		final HashMap<Integer, TreeSet<Integer>> graphValueSort = new HashMap<Integer, TreeSet<Integer>>();
+		for (final Map.Entry<Integer, ArrayList<Integer>> entry : adjListsMap.entrySet()) {
+			graphValueSort.put(entry.getKey(), new TreeSet<Integer>(entry.getValue()));
+		}
+		return graphValueSort;
+	}
+
 }

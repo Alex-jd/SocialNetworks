@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.TreeSet;
 
 public interface Graph {
 	// String adjListsMap = null;
@@ -35,6 +36,8 @@ public interface Graph {
 	 * representation ignores edge weights and multi-edges.
 	 */
 	public HashMap<Integer, HashSet<Integer>> exportGraph();
+
+	public HashMap<Integer, TreeSet<Integer>> getGraphValueSort();
 
 	public void addVertex(ArrayList<Integer> neigbors);
 
