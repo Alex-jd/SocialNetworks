@@ -6,19 +6,18 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
-import java.util.TreeSet;
 
 import graph.CapGraph;
 import graph.Graph;
 import util.GraphLoader;
 
-public class SCPS {
+public class SCPSHash {
 	// Initializate the Cover data structure (Universe Set)
-	// private TreeSet<Integer> universal;
+	// private HashSet<Integer> universal;
 	private Graph locGraph;
 	private Set<Integer> minDomSet = new HashSet<Integer>();
 
-	public SCPS(Graph g) {
+	public SCPSHash(Graph g) {
 		this.locGraph = g;
 	}
 
@@ -26,7 +25,7 @@ public class SCPS {
 		// Init the return data structure
 
 		// Init the current cover Graph
-		Set<Integer> coverU = new TreeSet<Integer>();
+		Set<Integer> coverU = new HashSet<Integer>();
 		// Get the Universe Graph
 		Set<Integer> universe = locGraph.getUnivers();
 		// While coverU not equal universe continue
@@ -80,14 +79,14 @@ public class SCPS {
 	}
 
 	private Set<Integer> getTheUnicEdges(Set<Integer> edgesCurNode, Set<Integer> coverU) {
-		final Set<Integer> unicEdges;
+		Set<Integer> unicEdges;
 		if (coverU == null) {
 			unicEdges = edgesCurNode;
 			return unicEdges;
 		} else if (edgesCurNode == null) {
 			return null;
 		} else {
-			unicEdges = new TreeSet<Integer>();
+			unicEdges = new HashSet<Integer>();
 			final Iterator<Integer> curNodeIter = edgesCurNode.iterator();
 			while (curNodeIter.hasNext()) {
 				Integer next = curNodeIter.next();
@@ -115,7 +114,7 @@ public class SCPS {
 			Integer next = coverVer.next();
 			if (!universe.contains(next))
 				System.out.println("cover is not equal to universe");
-				return false;
+			return false;
 		}
 		System.out.println("cover is equal to universe");
 		return true;
@@ -136,7 +135,7 @@ public class SCPS {
 		// GraphLoader.loadGraph(g, "data/twitter_combined.txt");
 		GraphLoader.loadGraph(g, "data/facebook_ucsd.txt");
 		// SetCoverSol coverTest = new SetCoverSol(g);
-		SCPS minDomTest = new SCPS(g);
+		SCPSHash minDomTest = new SCPSHash(g);
 		long startTime = System.nanoTime();
 		System.out.println("minDomSet " + minDomTest.getMinDomSet());
 		long endTime = System.nanoTime();

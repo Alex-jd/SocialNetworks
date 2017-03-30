@@ -124,41 +124,17 @@ public class CapGraph implements Graph {
 		// TODO Auto-generated method stub
 		Graph egoGraph = new CapGraph();
 
-		for (final int firstNeighb : adjListsMap.get(center)) { // iterator
-																// neighbors for
-																// center
-																// (current)
-																// vertex
-			for (final int secNeighb : adjListsMap.get(firstNeighb)) { // iterator
-																		// neighbors
-																		// for
-																		// vertex
-																		// j
-																		// (neighbors
-																		// of
-																		// center
-																		// neighbors)
+		for (final int firstNeighb : adjListsMap.get(center)) {
+			for (final int secNeighb : adjListsMap.get(firstNeighb)) {
 				if (secNeighb == center) { // if neighbor of center neighbors
 											// equals to center
 					egoGraph.addVertex(firstNeighb); // add the vertex to Object
 														// egoGraph
 				} else { //
-					for (final int firdNeighb : adjListsMap.get(secNeighb)) { // iterator
-																				// neighbors
-																				// of
-																				// neighbors
-																				// neighbor
-						if (firdNeighb == center) { // if neighbor of double
-													// neighbors (two hope way)
-													// equals to center
-							egoGraph.addVertex(firstNeighb); // add the vertex
-																// to Object
-																// egoGraph
-							egoGraph.addEdge(firstNeighb, secNeighb); // add the
-																		// edges
-																		// to
-																		// Object
-																		// egoGraph
+					for (final int firdNeighb : adjListsMap.get(secNeighb)) {
+						if (firdNeighb == center) {
+							egoGraph.addVertex(firstNeighb);
+							egoGraph.addEdge(firstNeighb, secNeighb);
 						}
 					}
 				}
@@ -182,11 +158,7 @@ public class CapGraph implements Graph {
 		final Graph transGraph = graphTranspose(adjListsMap);
 		// Get the DFS(G(t))
 		final Queue<Integer> reversOrderFinished = new LinkedList<Integer>();
-		final List<Integer> tempArrayList = new ArrayList<Integer>(finished); // get
-																				// the
-																				// ArrayList
-																				// from
-																				// finished(queue)
+		final List<Integer> tempArrayList = new ArrayList<Integer>(finished);
 		// Create the reverse order finished list
 		for (int i = tempArrayList.size() - 1; i >= 0; i--) {
 			reversOrderFinished.add(tempArrayList.get(i));
@@ -235,11 +207,7 @@ public class CapGraph implements Graph {
 			currCapGraph.addVertex(currVertex); // add the vertex to
 												// currCapGraph
 			if (adjListsMap.containsKey(currVertex) && !adjListsMap.get(currVertex).isEmpty()) {
-				for (int currNeighb : adjListsMap.get(currVertex)) { // Iteration
-																		// of
-																		// all
-																		// neighbors
-																		// of v
+				for (int currNeighb : adjListsMap.get(currVertex)) {
 					if (!visited.contains(currNeighb)) {
 						depthFirstSearchVisit(currVertex, currCapGraph, currNeighb, false); // Recursion
 					}
@@ -249,10 +217,7 @@ public class CapGraph implements Graph {
 		} else {
 			visited.add(toVertex); // Add v to visited
 			if (adjListsMap.containsKey(toVertex) && !adjListsMap.get(toVertex).isEmpty()) {
-				for (int currNeighb : adjListsMap.get(toVertex)) { // Iteration
-																	// of all
-																	// neighbors
-																	// of v
+				for (int currNeighb : adjListsMap.get(toVertex)) {
 					if (!visited.contains(currNeighb)) {
 						depthFirstSearchVisit(currVertex, currCapGraph, currNeighb, false); // Recursion
 					}
