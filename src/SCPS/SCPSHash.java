@@ -9,6 +9,7 @@ import java.util.Set;
 
 import graph.CapGraph;
 import graph.Graph;
+import graph.SetCoverSol;
 import util.GraphLoader;
 
 public class SCPSHash {
@@ -21,44 +22,32 @@ public class SCPSHash {
 		this.locGraph = g;
 	}
 
-	public Set<Integer> getMinDomSet() {
-		// Init the return data structure
+	public Set<Integer> getUniverse() {
+		return locGraph.getUniverse();
+	}
 
+	public Set<Integer> getMinDomSet(Set<Integer> universe) {
 		// Init the current cover Graph
 		Set<Integer> coverU = new HashSet<Integer>();
 		// Get the Universe Graph
-		Set<Integer> universe = locGraph.getUnivers();
+		// Set<Integer> universe = locGraph.getUnivers();
 		// While coverU not equal universe continue
 		Queue<Integer> toExplore = new LinkedList<Integer>(universe);
-		// List<Integer> temp1 = (List) toExplore;
-		// int next = temp1.get(getRandomIndex(temp1.size()));
 		int next = toExplore.peek();
-		// while (!isEquals(coverU, universe)) {
 		while (coverU.size() < universe.size()) {
 			// Get the edges of the next vertex
 			Integer bestNode = getTheBestNode(next, toExplore, coverU);
 			minDomSet.add(bestNode);
-			// System.out.println("size of the minDomSet " + minDomSet.size());
-			// System.out.println("bestNode " + bestNode);
 			Set<Integer> edgesCurNode = locGraph.getEdgesSort(bestNode);
 			Set<Integer> unicEdges = getTheUnicEdges(edgesCurNode, coverU);
-			// System.out.println("Unicque edges are " + unicEdges);
 			coverU.addAll(unicEdges);
-			// System.out.println("size of coverU " + coverU.size());
 			toExplore.remove(new Integer(bestNode));
-			// System.out.println("size of the toExplore " + toExplore.size());
-			// toExplore.remove((int) 100500);// remove(new Integer(100500))
 			if (!toExplore.isEmpty()) {
-				// List<Integer> temp = (List) toExplore;
-				// next = temp.get(getRandomIndex(temp.size()));
 				next = toExplore.peek();
-				// System.out.println("get the next " + next);
 			} else {
 				break;
 			}
-
 		}
-
 		return minDomSet;
 	}
 
@@ -134,16 +123,34 @@ public class SCPSHash {
 		Graph g = new CapGraph();
 		// GraphLoader.loadGraph(g, "data/twitter_combined.txt");
 		GraphLoader.loadGraph(g, "data/facebook_ucsd.txt");
-		// SetCoverSol coverTest = new SetCoverSol(g);
+		SetCoverSol coverSol = new SetCoverSol(g);
 		SCPSHash minDomTest = new SCPSHash(g);
 		long startTime = System.nanoTime();
-		System.out.println("minDomSet " + minDomTest.getMinDomSet());
+		// System.out.println("minDomSet " +
+		minDomTest.getMinDomSet(minDomTest.getUniverse());
 		long endTime = System.nanoTime();
 		long timeAll = (endTime - startTime);
-		System.out.println("elapsed time " + timeAll);
 		System.out.println("size of minDomSet " + minDomTest.getMinDomSetSize());
-		// System.out.println(coverTest.getTheCover());
-		// System.out.println(g.getGraphValueSort());
+		System.out.println("elapsed time " + timeAll);
+		// ==============================================
+		g = new CapGraph();
+		// GraphLoader.loadGraph(g, "data/twitter_combined.txt");
+		GraphLoader.loadGraph(g, "data/facebook_ucsd.txt");
+		coverSol = new SetCoverSol(g);
+		minDomTest = new SCPSHash(g);
+		Set<Integer> minDomSet = new HashSet<Integer>();
+		startTime = System.nanoTime();
+		for (Set<Integer> set : coverSol.getListOfSCC()) {
+			// System.out.println("curr list of SCC " + set);
+			Set<Integer> tempSet = minDomTest.getMinDomSet(set);
+			// System.out.println("temp MIN DOM SET " + tempSet);
+			minDomSet.addAll(tempSet);
+		}
+		endTime = System.nanoTime();
+		timeAll = (endTime - startTime);
+		// System.out.println("minDomSet " + minDomSet);
+		System.out.println("minDomSet size " + minDomSet.size());
+		System.out.println("elapsed time " + timeAll);
 	}
 
 }

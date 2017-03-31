@@ -31,25 +31,27 @@ public class OwnGetSCCgrade {
 
 			System.out.println(g.getNumVertices());
 			System.out.println(g.getNumEdges());
-
+			int temp1 = 0;
 			List<Set<Integer>> sccs = new ArrayList<Set<Integer>>();
 			for (Graph graph : graphSCCs) {
 				HashMap<Integer, HashSet<Integer>> curr = graph.exportGraph();
 				TreeSet<Integer> scc = new TreeSet<Integer>();
 				for (Map.Entry<Integer, HashSet<Integer>> entry : curr.entrySet()) {
 					scc.add(entry.getKey());
+					temp1++;
 				}
 				sccs.add(scc);
 
 			}
 			int countSCC = 0;
 			for (Set<Integer> temp : sccs) {
-				if (temp.size() > 1) {
-					System.out.println(temp);
+				if (temp.size() < 2) {
+					// System.out.println(temp);
 					countSCC++;
 				}
 			}
 			System.out.println("countSCC " + countSCC);
+			System.out.println("amount of added vertes " + temp1);
 
 		} catch (Exception e) {
 			// feedback = "An error occurred during runtime.\n" + feedback +

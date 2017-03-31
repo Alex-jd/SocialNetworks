@@ -58,7 +58,7 @@ public class SCPSFilter {
 			listOfSets.add(new LinkedHashSet<Integer>(entry.getValue()));
 		}
 
-		Set<Integer> universe = g.getUnivers();
+		Set<Integer> universe = g.getUniverse();
 		final Set<Integer> solutionSet = new LinkedHashSet<Integer>(universe);
 		Filter<Set<Set<Integer>>> filter = new Filter<Set<Set<Integer>>>() {
 			public boolean matches(Set<Set<Integer>> integers) {

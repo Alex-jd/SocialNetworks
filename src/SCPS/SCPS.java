@@ -28,7 +28,7 @@ public class SCPS {
 		// Init the current cover Graph
 		Set<Integer> coverU = new TreeSet<Integer>();
 		// Get the Universe Graph
-		Set<Integer> universe = locGraph.getUnivers();
+		Set<Integer> universe = locGraph.getUniverse();
 		// While coverU not equal universe continue
 		Queue<Integer> toExplore = new LinkedList<Integer>(universe);
 		// List<Integer> temp1 = (List) toExplore;
@@ -115,7 +115,7 @@ public class SCPS {
 			Integer next = coverVer.next();
 			if (!universe.contains(next))
 				System.out.println("cover is not equal to universe");
-				return false;
+			return false;
 		}
 		System.out.println("cover is equal to universe");
 		return true;

@@ -244,7 +244,6 @@ public class CapGraph implements Graph {
 		return mapTemp;
 	}
 
-
 	public HashMap<Integer, TreeSet<Integer>> getGraphValueSort() {
 		final HashMap<Integer, TreeSet<Integer>> graphValueSort = new HashMap<Integer, TreeSet<Integer>>();
 		for (final Map.Entry<Integer, ArrayList<Integer>> entry : adjListsMap.entrySet()) {
@@ -253,7 +252,7 @@ public class CapGraph implements Graph {
 		return graphValueSort;
 	}
 
-	public Set<Integer> getUnivers() {
+	public Set<Integer> getUniverse() {
 		Set<Integer> universe = new TreeSet<Integer>();
 		for (Map.Entry<Integer, ArrayList<Integer>> entry : adjListsMap.entrySet()) {
 			if (!universe.contains(entry.getKey())) {
