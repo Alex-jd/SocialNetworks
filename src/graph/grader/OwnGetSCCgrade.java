@@ -46,7 +46,7 @@ public class OwnGetSCCgrade {
 			int countSCC = 0;
 			for (Set<Integer> temp : sccs) {
 				if (temp.size() < 2) {
-					// System.out.println(temp);
+					System.out.println(temp);
 					countSCC++;
 				}
 			}

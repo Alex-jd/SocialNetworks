@@ -126,10 +126,8 @@ public class CapGraph implements Graph {
 
 		for (final int firstNeighb : adjListsMap.get(center)) {
 			for (final int secNeighb : adjListsMap.get(firstNeighb)) {
-				if (secNeighb == center) { // if neighbor of center neighbors
-											// equals to center
-					egoGraph.addVertex(firstNeighb); // add the vertex to Object
-														// egoGraph
+				if (secNeighb == center) { // if neighbor of center neighbors equals to center
+					egoGraph.addVertex(firstNeighb); // add the vertex to Object egoGraph
 				} else { //
 					for (final int firdNeighb : adjListsMap.get(secNeighb)) {
 						if (firdNeighb == center) {
@@ -191,8 +189,7 @@ public class CapGraph implements Graph {
 			currVertex = vertices.poll();
 			if (!visited.contains(currVertex)) {
 				final Graph currCapGraph = new CapGraph(currVertex);
-				SCC_List.add(currCapGraph); // Create and add object CapGraph
-											// with adding vertex
+				SCC_List.add(currCapGraph); // Create and add object CapGraph with adding vertex
 				depthFirstSearchVisit(currVertex, currCapGraph, -1, true);
 			}
 		}
@@ -204,8 +201,7 @@ public class CapGraph implements Graph {
 
 		if (trigger) {
 			visited.add(currVertex); // Add v to visited
-			currCapGraph.addVertex(currVertex); // add the vertex to
-												// currCapGraph
+			currCapGraph.addVertex(currVertex); // add the vertex to currCapGraph
 			if (adjListsMap.containsKey(currVertex) && !adjListsMap.get(currVertex).isEmpty()) {
 				for (int currNeighb : adjListsMap.get(currVertex)) {
 					if (!visited.contains(currNeighb)) {
@@ -242,14 +238,6 @@ public class CapGraph implements Graph {
 			mapTemp.put(entry.getKey(), new HashSet<Integer>(entry.getValue()));
 		}
 		return mapTemp;
-	}
-
-	public HashMap<Integer, TreeSet<Integer>> getGraphValueSort() {
-		final HashMap<Integer, TreeSet<Integer>> graphValueSort = new HashMap<Integer, TreeSet<Integer>>();
-		for (final Map.Entry<Integer, ArrayList<Integer>> entry : adjListsMap.entrySet()) {
-			graphValueSort.put(entry.getKey(), new TreeSet<Integer>(entry.getValue()));
-		}
-		return graphValueSort;
 	}
 
 	public Set<Integer> getUniverse() {

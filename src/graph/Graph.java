@@ -40,8 +40,6 @@ public interface Graph {
 	 */
 	public HashMap<Integer, HashSet<Integer>> exportGraph();
 
-	public HashMap<Integer, TreeSet<Integer>> getGraphValueSort();
-
 	public Set<Integer> getUniverse();
 
 	public void addVertex(ArrayList<Integer> neigbors);

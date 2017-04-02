@@ -18,7 +18,7 @@ public class SetCoverSol {
 
 	public SetCoverSol(Graph g) {
 		this.g = g;
-		this.setTheCover();
+		// this.setTheCover();
 	}
 
 	public void setTheCover() {
@@ -41,38 +41,31 @@ public class SetCoverSol {
 
 	public List<Set<Integer>> getListOfSCC() {
 		List<Graph> graphSCCs = g.getSCCs();
-		System.out.println(g.getNumVertices());
-		System.out.println(g.getNumEdges());
-		int temp1 = 0;
+		// System.out.println(g.getNumVertices());
+		// System.out.println(g.getNumEdges());
+		// int temp1 = 0;
 		List<Set<Integer>> sccs = new ArrayList<Set<Integer>>();
 		for (Graph graph : graphSCCs) {
 			HashMap<Integer, HashSet<Integer>> curr = graph.exportGraph();
-			TreeSet<Integer> scc = new TreeSet<Integer>();
+			Set<Integer> scc = new TreeSet<Integer>();
 			for (Map.Entry<Integer, HashSet<Integer>> entry : curr.entrySet()) {
 				scc.add(entry.getKey());
-				temp1++;
+				// temp1++;
 			}
 			sccs.add(scc);
-
 		}
 		return sccs;
 	}
 
-	public static Comparator<int>amountEdges=new Comparator<int>()
-
-	{
-
-	public int compare() {
-
-	}
-
-	};
 
 	public static void main(String[] args) {
 		Graph g = new CapGraph();
 		GraphLoader.loadGraph(g, "data/twitter_combined.txt");
+		// GraphLoader.loadGraph(g, "data/facebook_ucsd.txt");
 		SetCoverSol coverTest = new SetCoverSol(g);
 		List<Set<Integer>> listSet = coverTest.getListOfSCC();
+		// Collections.sort(listSet, new SortedBySize());
+		listSet.sort(new SortedBySize());
 		for (Set<Integer> tempSet : listSet)
 			System.out.println(tempSet);
 	}
