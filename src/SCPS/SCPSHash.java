@@ -22,7 +22,7 @@ public class SCPSHash {
 		this.locGraph = g;
 	}
 
-	public Set<Integer> getUniverse() {
+	private Set<Integer> getUniverse() {
 		return locGraph.getUniverse();
 	}
 	
